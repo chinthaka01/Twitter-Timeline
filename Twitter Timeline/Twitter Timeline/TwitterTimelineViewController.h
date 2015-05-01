@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TwitterTimelineViewController : UIViewController
+@interface TwitterTimelineViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 /**
  *  Send the received OAuth parameters to the handler. 

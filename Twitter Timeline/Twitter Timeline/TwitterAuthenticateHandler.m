@@ -17,7 +17,10 @@
     STTwitterAPI *_twitter;
     
     /** Completion block for perform tasks after user validation. */
-    void (^_completionCallBackHandler)(id, NSError *);
+    void (^_authenticationCompletionCallBackHandler)(id, NSError *);
+   
+    /** Completion block for perform tasks after retreive timeline statuses. */
+    void (^_timelineCompletionCallBackHandler)(id, NSError *);
 }
 
 - (void)validateUserAuthenticationWithCompletionHandler:(void (^)(BOOL))handler
@@ -27,9 +30,21 @@
     
     BOOL valid = NO;
     
+    AppConstants *appConstants = [[AppConstants alloc] init];
+    
     if (oauthToken.length > 0 && oauthTokenSecret.length > 0)
     {
         valid = YES;
+        
+        _twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:[appConstants getTwitterConsumerKey]
+                                                 consumerSecret:[appConstants getTwitterConsumerSecret]
+                                                     oauthToken:[DDDKeychainWrapper stringForKey:@"oauthToken"]
+                                               oauthTokenSecret:[DDDKeychainWrapper stringForKey:@"oauthTokenSecret"]];
+    }
+    else
+    {
+        _twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:[appConstants getTwitterConsumerKey]
+                                                 consumerSecret:[appConstants getTwitterConsumerSecret]];
     }
     
     handler(valid);
@@ -37,7 +52,7 @@
 
 - (void)authenticateWithCompletionHandler:(void (^)(id, NSError *))handler
 {
-    _completionCallBackHandler = [handler copy];
+    _authenticationCompletionCallBackHandler = [handler copy];
     [self signIn];
 }
 
@@ -57,7 +72,7 @@
                  oauthCallback:[appConstants getTwitterCallbackUrl]
                     errorBlock:^(NSError *error)
     {
-                        _completionCallBackHandler(nil, error);
+                        _authenticationCompletionCallBackHandler(nil, error);
                     }];
 }
 
@@ -68,26 +83,46 @@
         [DDDKeychainWrapper setString:oauthToken forKey:@"oauthToken"];
         [DDDKeychainWrapper setString:oauthTokenSecret forKey:@"oauthTokenSecret"];
         
-        _completionCallBackHandler(nil, nil);
-        
-        /*
-         At this point, the user can use the API and you can read his access tokens with:
-         
-         _twitter.oauthAccessToken;
-         _twitter.oauthAccessTokenSecret;
-         
-         You can store these tokens (in user default, or in keychain) so that the user doesn't need to authenticate again on next launches.
-         
-         Next time, just instanciate STTwitter with the class method:
-         
-         +[STTwitterAPI twitterAPIWithOAuthConsumerKey:consumerSecret:oauthToken:oauthTokenSecret:]
-         
-         Don't forget to call the -[STTwitter verifyCredentialsWithSuccessBlock:errorBlock:] after that.
-         */
+        _authenticationCompletionCallBackHandler(nil, nil);
     } errorBlock:^(NSError *error)
     {
-        _completionCallBackHandler(nil, error);
+        _authenticationCompletionCallBackHandler(nil, error);
     }];
+}
+
+- (void)requestTwitterTimelineWithCompletionHandler:(void (^)(id, NSError *))handler
+{
+    _timelineCompletionCallBackHandler = [handler copy];
+    
+    [_twitter getHomeTimelineSinceID:nil
+                               count:20
+                        successBlock:^(NSArray *statuses) {
+                            NSArray *visibleTweets = [self storeTweets:statuses];
+                            _timelineCompletionCallBackHandler(visibleTweets, nil);
+                        } errorBlock:^(NSError *error) {
+                            _timelineCompletionCallBackHandler(nil, error);
+                        }];
+}
+
+- (NSArray *)storeTweets:(NSArray *)tweets
+{
+    // ~~ Here we need to store the received tweets in the DB ~~~ //
+    
+    
+    int rowLimitation = 10;
+    
+    NSArray *visibleTweets;
+    
+    if (tweets.count > rowLimitation)
+    {
+        visibleTweets = [tweets subarrayWithRange:NSMakeRange(0, rowLimitation)];
+    }
+    else
+    {
+        visibleTweets = [NSArray arrayWithArray:tweets];
+    }
+    
+    return visibleTweets;
 }
 
 @end

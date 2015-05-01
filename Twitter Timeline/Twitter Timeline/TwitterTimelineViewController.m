@@ -13,10 +13,14 @@
 
 @property (nonatomic, strong) TwitterAuthenticateHandler *twitterAuthenticateHandler;
 
+/** Tweets to show once in the view. */
+@property (nonatomic, strong) NSMutableArray *tweets;
+
 @property (nonatomic, weak) IBOutlet UIView *infoView;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, weak) IBOutlet UILabel *infoLabel;
 @property (nonatomic, weak) IBOutlet UIButton *signInButton;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @end
 
@@ -29,6 +33,9 @@ static float INFO_VIEW_VISIBILITY = .6f;
     [super viewDidLoad];
     
     self.twitterAuthenticateHandler = [[TwitterAuthenticateHandler alloc] init];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -110,7 +117,40 @@ static float INFO_VIEW_VISIBILITY = .6f;
 
 - (void)loadTwitterTimeline
 {
+    [self.activityIndicator startAnimating];
+    self.infoLabel.text = NSLocalizedString(@"Loading", nil);
     
+    [self.twitterAuthenticateHandler requestTwitterTimelineWithCompletionHandler:^(NSArray *response, NSError *error) {
+        self.tweets = [NSMutableArray arrayWithArray:response];
+        [self.tableView reloadData];
+    }];
+}
+
+#pragma mark - Table view data source methods.
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.tweets.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TwitterTVCellIdentifier"];
+    
+    if(cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"TwitterTVCellIdentifier"];
+    }
+    
+    NSDictionary *status = [self.tweets objectAtIndex:indexPath.row];
+    
+    NSString *text = [status valueForKey:@"text"];
+    NSString *screenName = [status valueForKeyPath:@"user.screen_name"];
+    NSString *dateString = [status valueForKey:@"created_at"];
+    
+    cell.textLabel.text = text;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"@%@ | %@", screenName, dateString];
+    
+    return cell;
 }
 
 @end

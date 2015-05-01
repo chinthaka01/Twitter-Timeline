@@ -25,4 +25,9 @@
  */
 - (void)setOAuthToken:(NSString *)token oauthVerifier:(NSString *)verifier;
 
+/**
+ *  Load the twitter timeline statuses.
+ */
+- (void)requestTwitterTimelineWithCompletionHandler:(void (^)(id, NSError *))handler;
+
 @end
