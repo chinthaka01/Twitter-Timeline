@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "TwitterTimelineViewController.h"
 
 @interface AppDelegate ()
 
@@ -42,6 +43,54 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+}
+
+/**
+ *  Returns a dictionary of received oauth parameters.
+ */
+- (NSDictionary *)parametersDictionaryFromQueryString:(NSString *)queryString
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    NSArray *queryComponents = [queryString componentsSeparatedByString:@"&"];
+    
+    for(NSString *component in queryComponents)
+    {
+        NSArray *pair = [component componentsSeparatedByString:@"="];
+        if([pair count] != 2)
+        {
+           continue;
+        }
+        
+        NSString *key = pair[0];
+        NSString *value = pair[1];
+        
+        params[key] = value;
+    }
+    
+    return params;
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    if ([[url scheme] isEqualToString:@"twittertimeline"] == NO)
+    {
+       return NO;
+    }
+    
+    NSDictionary *params = [self parametersDictionaryFromQueryString:[url query]];
+    
+    NSString *token = params[@"oauth_token"];
+    NSString *verifier = params[@"oauth_verifier"];
+    
+    UINavigationController *rootViewController = (UINavigationController *)[[self window] rootViewController];
+    TwitterTimelineViewController *twitterTimelineViewController = (TwitterTimelineViewController *)[rootViewController.viewControllers lastObject];
+    [twitterTimelineViewController setOAuthToken:token oauthVerifier:verifier];
+    
+    return YES;
 }
 
 #pragma mark - Core Data stack

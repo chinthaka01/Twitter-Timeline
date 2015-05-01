@@ -10,6 +10,7 @@
 
 @interface ViewController : UIViewController
 
+//- (void)setOAuthToken:(NSString *)token oauthVerifier:(NSString *)verifier;
 
 @end
 
