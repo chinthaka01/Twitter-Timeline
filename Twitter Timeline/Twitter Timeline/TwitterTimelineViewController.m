@@ -8,6 +8,8 @@
 
 #import "TwitterTimelineViewController.h"
 #import "SDWebImageManager.h"
+#import "TwitterTimelineTableViewCell.h"
+#import "TwitterDetailViewController.h"
 
 @interface TwitterTimelineViewController ()
 
@@ -34,6 +36,16 @@
     [self loadTwitterTimeline];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"TwitterStatusDetailViewSegue"])
+    {
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        TwitterTimelineTableViewCell *cell = (TwitterTimelineTableViewCell *)[self.tableView cellForRowAtIndexPath:selectedIndexPath];
+        [(TwitterDetailViewController *)segue.destinationViewController setTwitterStatusInfo:cell.twitterStatusInfo];
+    }
+}
+
 - (void)loadTwitterTimeline
 {
 //    [self.activityIndicator startAnimating];
@@ -54,24 +66,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TwitterTVCellIdentifier"];
+    TwitterTimelineTableViewCell *cell = (TwitterTimelineTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TwitterTimelineTableViewCell"];
     
-    if(cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"TwitterTVCellIdentifier"];
+    if(cell == nil)
+    {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"TwitterTimelineTableViewCell" owner:nil options:nil];
+        cell = topLevelObjects[0];
     }
     
     NSDictionary *status = [self.tweets objectAtIndex:indexPath.row];
+    NSDictionary *userInfo = [status valueForKey:@"user"];
+    cell.twitterStatusInfo = [NSDictionary dictionaryWithDictionary:status];
     
     NSString *text = [status valueForKey:@"text"];
-    NSString *screenName = [status valueForKeyPath:@"user.screen_name"];
+    NSString *screenName = [userInfo valueForKeyPath:@"screen_name"];
     NSString *dateString = [status valueForKey:@"created_at"];
-    NSString *profileImaeUrl = [status valueForKey:@"user.profile_image_url"];
+    NSString *profileImaeUrl = [userInfo valueForKey:@"profile_image_url"];
     
     NSURL *url = [NSURL URLWithString:profileImaeUrl];
     
     UIImage *placeholderImage = [UIImage imageNamed:@"TimelineFeedThumb"];
     
-    __weak UIImageView *promoView = cell.imageView;
+    __weak UIImageView *promoView = cell.profileImageView;
     promoView.image = placeholderImage;
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -100,10 +116,16 @@
          }
      }];
     
-    cell.textLabel.text = text;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"@%@ | %@", screenName, dateString];
+    cell.twitterTextLabel.text = text;
+    cell.screenNameLabel.text = screenName;
+    cell.createdDateLabel.text = dateString;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"TwitterStatusDetailViewSegue" sender:self];
 }
 
 @end

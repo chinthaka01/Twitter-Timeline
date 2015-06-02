@@ -10,4 +10,6 @@
 
 @interface TwitterDetailViewController : UIViewController
 
+@property (nonatomic, strong) NSDictionary *twitterStatusInfo;
+
 @end

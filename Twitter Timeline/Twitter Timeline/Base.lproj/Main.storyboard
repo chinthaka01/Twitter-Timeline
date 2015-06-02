@@ -211,7 +211,7 @@
                             <userLayoutGuide location="400" affinity="minY"/>
                         </userGuides>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="7kV-GL-hJX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="103" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="7kV-GL-hJX">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
@@ -237,7 +237,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="7kV-GL-hJX" id="eSe-AY-1MM"/>
-                        <segue destination="9hR-zg-bHc" kind="show" id="Srz-Dq-gof"/>
+                        <segue destination="9hR-zg-bHc" kind="show" identifier="TwitterStatusDetailViewSegue" id="Srz-Dq-gof"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RsM-AF-dAH" userLabel="First Responder" sceneMemberID="firstResponder"/>
