@@ -7,24 +7,14 @@
 //
 
 #import "TwitterTimelineViewController.h"
-#import "TwitterAuthenticateHandler.h"
 
 @interface TwitterTimelineViewController ()
 
-@property (nonatomic, strong) TwitterAuthenticateHandler *twitterAuthenticateHandler;
-
 /** Tweets to show once in the view. */
 @property (nonatomic, strong) NSMutableArray *tweets;
-
-@property (nonatomic, weak) IBOutlet UIView *infoView;
-@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, weak) IBOutlet UILabel *infoLabel;
-@property (nonatomic, weak) IBOutlet UIButton *signInButton;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @end
-
-static float INFO_VIEW_VISIBILITY = .6f;
 
 @implementation TwitterTimelineViewController
 
@@ -32,93 +22,21 @@ static float INFO_VIEW_VISIBILITY = .6f;
 {
     [super viewDidLoad];
     
-    self.twitterAuthenticateHandler = [[TwitterAuthenticateHandler alloc] init];
-    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     
-    [self configureViews];
-    
-    [self validateUser];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (void)configureViews
-{
-    [self.signInButton setAlpha:0.f];
-}
-
-- (void)validateUser
-{
-    [self.activityIndicator startAnimating];
-    self.infoLabel.text = NSLocalizedString(@"Validating...", nil);
-    
-    [self.twitterAuthenticateHandler validateUserAuthenticationWithCompletionHandler:^(BOOL valid) {
-        [self.activityIndicator stopAnimating];
-        [self.infoView setAlpha:0.f];
-        [self.view sendSubviewToBack:self.infoView];
-        
-        if (valid)
-        {
-            [self loadTwitterTimeline];
-        }
-        else
-        {
-           [self configureUserAuthentication];
-        }
-    }];
-}
-
-- (void)configureUserAuthentication
-{
-    self.infoLabel.text = NSLocalizedString(@"Autenticating...", nil);
-    [self.infoView setAlpha:INFO_VIEW_VISIBILITY];
-    [self.view bringSubviewToFront:self.infoView];
-    [self.activityIndicator startAnimating];
-    
-    [self.twitterAuthenticateHandler authenticateWithCompletionHandler:^(id result, NSError *error) {
-        [self.activityIndicator stopAnimating];
-        
-        if (error) {
-            self.infoLabel.text = NSLocalizedString(@"Failed", nil);
-            [self.signInButton setUserInteractionEnabled:YES];
-        }
-        else
-        {
-            [self.infoView setAlpha:0.f];
-            [self.view sendSubviewToBack:self.infoView];
-            [self.signInButton removeFromSuperview];
-            
-            [self loadTwitterTimeline];
-        }
-    }];
-}
-
-- (void)setOAuthToken:(NSString *)token oauthVerifier:(NSString *)verifier
-{
-    [self.twitterAuthenticateHandler setOAuthToken:token oauthVerifier:verifier];
-}
-
-- (IBAction)signIn:(id)sender
-{
-    [self configureUserAuthentication];
-    
-    [self.signInButton setUserInteractionEnabled:NO];
+    [self loadTwitterTimeline];
 }
 
 - (void)loadTwitterTimeline
 {
-    [self.activityIndicator startAnimating];
-    self.infoLabel.text = NSLocalizedString(@"Loading", nil);
+//    [self.activityIndicator startAnimating];
+//    self.infoLabel.text = NSLocalizedString(@"Loading", nil);
     
     [self.twitterAuthenticateHandler requestTwitterTimelineWithCompletionHandler:^(NSArray *response, NSError *error) {
         self.tweets = [NSMutableArray arrayWithArray:response];

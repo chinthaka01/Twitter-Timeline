@@ -15,6 +15,7 @@
 		2B1F6A641AF369990036668C /* TwitterAuthenticateHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F6A631AF369990036668C /* TwitterAuthenticateHandler.m */; };
 		2B1F6A661AF372C10036668C /* Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B1F6A651AF372C10036668C /* Localization.strings */; };
 		2B1F6A671AF37EFE0036668C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B0D93AB1AF32E4600DCC2DD /* Security.framework */; };
+		2B75FC931B1DD85B00389414 /* TwitterAuthenticateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B75FC921B1DD85B00389414 /* TwitterAuthenticateViewController.m */; };
 		2BE724C11AF3266700A52B87 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE724C01AF3266700A52B87 /* main.m */; };
 		2BE724C41AF3266700A52B87 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE724C31AF3266700A52B87 /* AppDelegate.m */; };
 		2BE724C71AF3266700A52B87 /* Twitter_Timeline.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2BE724C51AF3266700A52B87 /* Twitter_Timeline.xcdatamodeld */; };
@@ -50,6 +51,8 @@
 		2B1F6A621AF369990036668C /* TwitterAuthenticateHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterAuthenticateHandler.h; sourceTree = "<group>"; };
 		2B1F6A631AF369990036668C /* TwitterAuthenticateHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterAuthenticateHandler.m; sourceTree = "<group>"; };
 		2B1F6A651AF372C10036668C /* Localization.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localization.strings; sourceTree = "<group>"; };
+		2B75FC911B1DD85B00389414 /* TwitterAuthenticateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterAuthenticateViewController.h; sourceTree = "<group>"; };
+		2B75FC921B1DD85B00389414 /* TwitterAuthenticateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterAuthenticateViewController.m; sourceTree = "<group>"; };
 		2BE724BB1AF3266700A52B87 /* Twitter Timeline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Twitter Timeline.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE724BF1AF3266700A52B87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2BE724C01AF3266700A52B87 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				2B1F6A5E1AF361B00036668C /* TwitterTimelineViewController.m */,
 				2B1F6A621AF369990036668C /* TwitterAuthenticateHandler.h */,
 				2B1F6A631AF369990036668C /* TwitterAuthenticateHandler.m */,
+				2B75FC911B1DD85B00389414 /* TwitterAuthenticateViewController.h */,
+				2B75FC921B1DD85B00389414 /* TwitterAuthenticateViewController.m */,
 			);
 			path = "Twitter Timeline";
 			sourceTree = "<group>";
@@ -323,6 +328,7 @@
 				2B1F6A641AF369990036668C /* TwitterAuthenticateHandler.m in Sources */,
 				2BE724C71AF3266700A52B87 /* Twitter_Timeline.xcdatamodeld in Sources */,
 				2B1F6A5C1AF35A990036668C /* AppConstants.m in Sources */,
+				2B75FC931B1DD85B00389414 /* TwitterAuthenticateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

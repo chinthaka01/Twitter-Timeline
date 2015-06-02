@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="E7l-kq-KnG"/>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="3If-Ea-pWZ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocj-hM-kry" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,7 +24,7 @@
         <!--Twitter Timeline-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="Twitter Timeline" id="vXZ-lx-hvc" customClass="TwitterTimelineViewController" sceneMemberID="viewController">
+                <viewController title="Twitter Timeline" id="vXZ-lx-hvc" customClass="TwitterAuthenticateViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -96,13 +96,13 @@
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="CFo-PS-67a"/>
-                                        <exclude reference="8cS-m8-GbD"/>
-                                        <exclude reference="Bbm-iJ-TxL"/>
                                         <exclude reference="3Or-vl-2Ly"/>
                                         <exclude reference="AuL-V3-u41"/>
                                         <exclude reference="HGk-Ya-VL2"/>
                                         <exclude reference="lqF-QA-4B8"/>
                                         <exclude reference="lqd-sC-Hdo"/>
+                                        <exclude reference="8cS-m8-GbD"/>
+                                        <exclude reference="Bbm-iJ-TxL"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -112,13 +112,13 @@
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="CFo-PS-67a"/>
-                                        <include reference="8cS-m8-GbD"/>
-                                        <include reference="Bbm-iJ-TxL"/>
                                         <include reference="3Or-vl-2Ly"/>
                                         <include reference="AuL-V3-u41"/>
                                         <include reference="HGk-Ya-VL2"/>
                                         <include reference="lqF-QA-4B8"/>
                                         <include reference="lqd-sC-Hdo"/>
+                                        <include reference="8cS-m8-GbD"/>
+                                        <include reference="Bbm-iJ-TxL"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -160,12 +160,12 @@
                                 <exclude reference="3lK-XR-KcV"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="ckt-0w-1fo"/>
+                                <exclude reference="dHx-RD-OFF"/>
+                                <exclude reference="jON-fD-jZu"/>
                                 <exclude reference="4Iq-B9-rQu"/>
                                 <exclude reference="6Qc-mM-dpl"/>
                                 <exclude reference="mwi-Gl-K9l"/>
-                                <exclude reference="dHx-RD-OFF"/>
-                                <exclude reference="jON-fD-jZu"/>
-                                <exclude reference="ckt-0w-1fo"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -174,12 +174,12 @@
                                 <include reference="3lK-XR-KcV"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="ckt-0w-1fo"/>
+                                <include reference="dHx-RD-OFF"/>
+                                <include reference="jON-fD-jZu"/>
                                 <include reference="4Iq-B9-rQu"/>
                                 <include reference="6Qc-mM-dpl"/>
                                 <include reference="mwi-Gl-K9l"/>
-                                <include reference="dHx-RD-OFF"/>
-                                <include reference="jON-fD-jZu"/>
-                                <include reference="ckt-0w-1fo"/>
                             </mask>
                         </variation>
                     </view>
@@ -189,11 +189,58 @@
                         <outlet property="infoLabel" destination="JjU-uI-Fs5" id="vjS-sQ-XBT"/>
                         <outlet property="infoView" destination="nkt-62-gmE" id="4O0-7Q-jlg"/>
                         <outlet property="signInButton" destination="3lK-XR-KcV" id="UVP-ad-tFV"/>
+                        <segue destination="C5Q-uz-dox" kind="show" identifier="timelineViewSegue" id="puK-BE-Syw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1878" y="478.5"/>
+            <point key="canvasLocation" x="-1716" y="478.5"/>
+        </scene>
+        <!--Twitter Timeline View Controller-->
+        <scene sceneID="3zX-vP-KkX">
+            <objects>
+                <viewController id="C5Q-uz-dox" customClass="TwitterTimelineViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dEH-sG-NUS"/>
+                        <viewControllerLayoutGuide type="bottom" id="VJL-0S-PhP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lQf-yW-wHg">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <userGuides>
+                            <userLayoutGuide location="400" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="7kV-GL-hJX">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="64" width="400" height="682"/>
+                                </variation>
+                                <connections>
+                                    <outlet property="dataSource" destination="C5Q-uz-dox" id="eKq-rc-WeL"/>
+                                    <outlet property="delegate" destination="C5Q-uz-dox" id="bO0-PE-e7U"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="7kV-GL-hJX"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="7kV-GL-hJX"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="7kV-GL-hJX" id="eSe-AY-1MM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RsM-AF-dAH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-885" y="478.5"/>
         </scene>
     </scenes>
 </document>

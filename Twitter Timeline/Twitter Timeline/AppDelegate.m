@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "TwitterTimelineViewController.h"
+#import "TwitterAuthenticateViewController.h"
 
 @interface AppDelegate ()
 
@@ -87,8 +87,8 @@
     NSString *verifier = params[@"oauth_verifier"];
     
     UINavigationController *rootViewController = (UINavigationController *)[[self window] rootViewController];
-    TwitterTimelineViewController *twitterTimelineViewController = (TwitterTimelineViewController *)[rootViewController.viewControllers lastObject];
-    [twitterTimelineViewController setOAuthToken:token oauthVerifier:verifier];
+    TwitterAuthenticateViewController *twitterAuthenticateViewController = (TwitterAuthenticateViewController *)[rootViewController.viewControllers lastObject];
+    [twitterAuthenticateViewController setOAuthToken:token oauthVerifier:verifier];
     
     return YES;
 }

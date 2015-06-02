@@ -8,13 +8,10 @@
 //  View Controller for view twitter timeline.
 
 #import <UIKit/UIKit.h>
+#import "TwitterAuthenticateHandler.h"
 
 @interface TwitterTimelineViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-/**
- *  Send the received OAuth parameters to the handler. 
- */
-- (void)setOAuthToken:(NSString *)token
-        oauthVerifier:(NSString *)verifier;
+@property (nonatomic, weak) TwitterAuthenticateHandler *twitterAuthenticateHandler;
 
 @end
