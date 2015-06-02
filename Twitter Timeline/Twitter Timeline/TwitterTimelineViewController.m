@@ -7,6 +7,7 @@
 //
 
 #import "TwitterTimelineViewController.h"
+#import "SDWebImageManager.h"
 
 @interface TwitterTimelineViewController ()
 
@@ -64,6 +65,40 @@
     NSString *text = [status valueForKey:@"text"];
     NSString *screenName = [status valueForKeyPath:@"user.screen_name"];
     NSString *dateString = [status valueForKey:@"created_at"];
+    NSString *profileImaeUrl = [status valueForKey:@"user.profile_image_url"];
+    
+    NSURL *url = [NSURL URLWithString:profileImaeUrl];
+    
+    UIImage *placeholderImage = [UIImage imageNamed:@"TimelineFeedThumb"];
+    
+    __weak UIImageView *promoView = cell.imageView;
+    promoView.image = placeholderImage;
+    
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    [manager downloadImageWithURL:url
+                          options:SDWebImageContinueInBackground
+                         progress:^(NSInteger receivedSize, NSInteger expectedSize)
+     {
+         //         [_activityIndicator startAnimating];
+     }
+                        completed:^(UIImage *image,
+                                    NSError *error,
+                                    SDImageCacheType cacheType,
+                                    BOOL finished,
+                                    NSURL *imageURL)
+     {
+         if (image)
+         {
+             //             [_activityIndicator stopAnimating];
+             promoView.image = image;
+             [promoView setNeedsLayout];
+         }
+         else
+         {
+             //             [_activityIndicator stopAnimating];
+                          promoView.image = placeholderImage;
+         }
+     }];
     
     cell.textLabel.text = text;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"@%@ | %@", screenName, dateString];

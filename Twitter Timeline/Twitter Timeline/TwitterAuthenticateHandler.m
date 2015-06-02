@@ -109,20 +109,21 @@
     // ~~ Here we need to store the received tweets in the DB ~~~ //
     
     
-    int rowLimitation = 10;
-    
-    NSArray *visibleTweets;
-    
-    if (tweets.count > rowLimitation)
-    {
-        visibleTweets = [tweets subarrayWithRange:NSMakeRange(0, rowLimitation)];
-    }
-    else
-    {
-        visibleTweets = [NSArray arrayWithArray:tweets];
-    }
-    
-    return visibleTweets;
+//    int rowLimitation = 10;
+//    
+//    NSArray *visibleTweets;
+//    
+//    if (tweets.count > rowLimitation)
+//    {
+//        visibleTweets = [tweets subarrayWithRange:NSMakeRange(0, rowLimitation)];
+//    }
+//    else
+//    {
+//        visibleTweets = [NSArray arrayWithArray:tweets];
+//    }
+//    
+//    return visibleTweets;
+    return tweets;
 }
 
 @end
