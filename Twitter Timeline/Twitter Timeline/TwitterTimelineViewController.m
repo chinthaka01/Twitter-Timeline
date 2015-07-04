@@ -66,11 +66,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TwitterTimelineTableViewCell *cell = (TwitterTimelineTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TwitterTimelineTableViewCell"];
+    TwitterTimelineTableViewCell *cell = (TwitterTimelineTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TwitterTimelineTableCell"];
     
     if(cell == nil)
     {
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"TwitterTimelineTableViewCell" owner:nil options:nil];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"TwitterTimelineTableCell" owner:nil options:nil];
         cell = topLevelObjects[0];
     }
     
